@@ -1,0 +1,256 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+// 账号模型（通用）
+model Account {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  role          UserRole
+  status        AccountStatus @default(ACTIVE)
+  emailVerified DateTime?
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // 关联
+  jobSeekerProfile JobSeekerProfile?
+  companyProfile   CompanyProfile?
+  applications     JobApplication[]
+  oauthAccounts   OAuthAccount[]
+  sessions        Session[]
+}
+
+// 账号状态枚举
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+// 用户角色枚举
+enum UserRole {
+  ADMIN
+  COMPANY
+  JOBSEEKER
+}
+
+// 求职者档案模型
+model JobSeekerProfile {
+  id              String    @id @default(cuid())
+  
+  // 基本信息（注册时填写）
+  firstName       String
+  lastName        String
+  industry        String    // 期望工作领域
+  
+  // 详细信息（后续补充）
+  gender          Gender?
+  birthYear       Int?
+  educationLevel  EducationLevel?  // 改名避免冲突
+  yearsOfExp      Int?
+  currentLocation String?
+  phone           String?
+  bio             String?   @db.Text
+  
+  // 求职意向
+  desiredPosition String?
+  desiredLocation String[]
+  salaryMin       Int?
+  salaryMax       Int?
+  jobStatus       JobSeekerStatus?
+  
+  // 附件
+  resumeUrl       String?
+  
+  // 系统信息
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  lastActiveAt    DateTime  @default(now())
+
+  // 关联
+  accountId       String    @unique
+  account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  educationHistory Education[]
+  experience      Experience[]
+}
+
+// 企业档案模型
+model CompanyProfile {
+  id              String    @id @default(cuid())
+  
+  // 基本信息（注册时填写）
+  name            String    // 公司名称
+  size            CompanySize
+  industry        String    // 所属行业
+  location        String    // 公司地址
+  
+  // 详细信息（后续补充）
+  description     String?   @db.Text
+  website         String?
+  logo            String?
+  
+  // 联系信息
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
+  
+  // 系统信息
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  lastActiveAt    DateTime  @default(now())
+  
+  // 关联
+  accountId       String    @unique
+  account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  jobs            Job[]
+}
+
+// 工作岗位模型
+model Job {
+  id              String    @id @default(cuid())
+  title           String
+  description     String    @db.Text
+  requirements    String    @db.Text
+  location        String
+  type            JobType
+  salary          String?
+  status          JobStatus @default(OPEN)
+  
+  // 系统信息
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // 关联
+  companyProfileId String
+  companyProfile   CompanyProfile @relation(fields: [companyProfileId], references: [id], onDelete: Cascade)
+  applications     JobApplication[]
+}
+
+// 工作申请模型
+model JobApplication {
+  id              String    @id @default(cuid())
+  status          ApplicationStatus @default(PENDING)
+  coverLetter     String?   @db.Text
+  
+  // 系统信息
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // 关联
+  jobId           String
+  job             Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  accountId       String
+  account         Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+// OAuth账号关联
+model OAuthAccount {
+  id                 String  @id @default(cuid())
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  accountId          String
+  account            Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// 会话模型
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  expires      DateTime
+  accountId    String
+  account      Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+// 教育经历模型
+model Education {
+  id              String    @id @default(cuid())
+  school          String
+  degree          EducationLevel
+  field           String
+  startDate       DateTime
+  endDate         DateTime?
+  description     String?   @db.Text
+  
+  profileId       String
+  profile         JobSeekerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+// 工作经历模型
+model Experience {
+  id              String    @id @default(cuid())
+  company         String
+  position        String
+  startDate       DateTime
+  endDate         DateTime?
+  description     String    @db.Text
+  
+  profileId       String
+  profile         JobSeekerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+// 枚举定义
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum EducationLevel {
+  HIGH_SCHOOL
+  ASSOCIATE
+  BACHELOR
+  MASTER
+  PHD
+  OTHER
+}
+
+enum CompanySize {
+  LESS_THAN_50
+  FROM_50_TO_200
+  FROM_200_TO_1000
+  FROM_1000_TO_5000
+  MORE_THAN_5000
+}
+
+enum JobSeekerStatus {
+  ACTIVELY_LOOKING
+  EMPLOYED_LOOKING
+  NOT_LOOKING
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  ACCEPTED
+  REJECTED
+}

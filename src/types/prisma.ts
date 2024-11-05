@@ -1,0 +1,1 @@
+export type CompanySize = 'LESS_THAN_50' | 'FROM_50_TO_200' | 'FROM_200_TO_1000' | 'FROM_1000_TO_5000' | 'MORE_THAN_5000' 
