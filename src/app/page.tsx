@@ -5,6 +5,7 @@ import JobSearch from '@/components/JobSearch'
 import Link from 'next/link'
 import Image from 'next/image'
 
+// 精选职位
 const FEATURED_JOBS = [
   {
     id: 1,
