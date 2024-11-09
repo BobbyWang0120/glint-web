@@ -41,11 +41,11 @@ const MOCK_APPLIED_JOBS = [
 ]
 
 // 生成固定的企业发布的职位
-const generateCompanyJobs = (companyName: string) => [
+const MOCK_COMPANY_JOBS = [
   {
     id: 1,
     title: 'Frontend Developer',
-    company: companyName,
+    company: 'Your Company',
     companyLogo: '',
     location: 'NY',
     salary: '$120,000 - $180,000',
@@ -55,7 +55,7 @@ const generateCompanyJobs = (companyName: string) => [
   {
     id: 2,
     title: 'Backend Developer',
-    company: companyName,
+    company: 'Your Company',
     companyLogo: '',
     location: 'CA',
     salary: '$130,000 - $190,000',
@@ -65,7 +65,7 @@ const generateCompanyJobs = (companyName: string) => [
   {
     id: 3,
     title: 'DevOps Engineer',
-    company: companyName,
+    company: 'Your Company',
     companyLogo: '',
     location: 'TX',
     salary: '$140,000 - $200,000',
@@ -75,8 +75,12 @@ const generateCompanyJobs = (companyName: string) => [
 ]
 
 export default function Dashboard() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
+
+  if (status === 'loading') {
+    return <div>Loading...</div>
+  }
 
   if (!session) {
     router.push('/auth/login')
@@ -84,7 +88,7 @@ export default function Dashboard() {
   }
 
   const isCompany = session.user.role === 'COMPANY'
-  const jobs = isCompany ? generateCompanyJobs('Your Company Name') : MOCK_APPLIED_JOBS
+  const jobs = isCompany ? MOCK_COMPANY_JOBS : MOCK_APPLIED_JOBS
 
   return (
     <div className="min-h-screen bg-gray-50">
