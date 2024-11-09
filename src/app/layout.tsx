@@ -1,6 +1,7 @@
 import './globals.css'
 import { NextAuthProvider } from '@/providers/NextAuthProvider'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: 'Glint - Job Board Platform',
