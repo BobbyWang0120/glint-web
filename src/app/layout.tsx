@@ -19,6 +19,7 @@ export default function RootLayout({
         <NextAuthProvider>
           <LanguageProvider>
             {children}
+            <Analytics />
           </LanguageProvider>
         </NextAuthProvider>
       </body>
