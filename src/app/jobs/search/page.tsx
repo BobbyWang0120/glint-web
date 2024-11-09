@@ -9,8 +9,8 @@ import { generateMockJobs } from '@/utils/mockData'
 
 export default function JobSearch() {
   const searchParams = useSearchParams()
-  const keyword = searchParams.get('keyword')
-  const location = searchParams.get('location')
+  const keyword = searchParams.get('keyword') || undefined
+  const location = searchParams.get('location') || undefined
   const [currentPage, setCurrentPage] = useState(1)
   const [jobs, setJobs] = useState<any[]>([])
 

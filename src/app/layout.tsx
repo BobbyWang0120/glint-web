@@ -1,5 +1,6 @@
 import './globals.css'
 import { NextAuthProvider } from '@/providers/NextAuthProvider'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 
 export const metadata = {
   title: 'Glint - Job Board Platform',
@@ -15,7 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </NextAuthProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
+import LogoImage from '@/components/ui/LogoImage'
 
 interface JobCardProps {
   job: {
@@ -24,12 +24,10 @@ export default function JobCard({ job }: JobCardProps) {
     >
       <div className="p-6">
         <div className="flex items-start">
-          <Image
+          <LogoImage
             src={`https://logo.clearbit.com/${job.companyLogo}`}
-            alt={`${job.company} logo`}
-            width={48}
-            height={48}
-            className="rounded-lg"
+            alt={job.company}
+            size={48}
           />
           <div className="ml-4 flex-1">
             <div className="flex justify-between items-start">
