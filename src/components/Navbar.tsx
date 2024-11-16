@@ -40,18 +40,20 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-semibold text-gray-900 mr-12">
-            Glint
-          </Link>
+          <div className="flex items-center">
+            <Link href="/" className="text-2xl font-semibold text-gray-900 mr-12">
+              Glint
+            </Link>
 
-          {/* Navigation Links - 移到左边，紧跟在 Logo 后面 */}
-          <div className="hidden md:flex items-center space-x-8 mr-auto">
-            {navLinks}
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              {navLinks}
+            </div>
           </div>
 
-          {/* Right Section */}
+          {/* Desktop Right Section */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Auth Buttons */}
             {session ? (
@@ -108,13 +110,13 @@ export default function Navbar() {
                   href="/auth/login"
                   className="text-gray-600 hover:text-gray-900"
                 >
-                  Sign In
+                  {getTranslation(currentLanguage, 'nav.signIn')}
                 </Link>
                 <Link
                   href="/auth/register"
                   className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
                 >
-                  Sign Up
+                  {getTranslation(currentLanguage, 'nav.signUp')}
                 </Link>
               </div>
             )}
@@ -125,8 +127,12 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile Right Section */}
+          <div className="flex md:hidden items-center space-x-4">
+            {/* Language Switcher for Mobile */}
+            <LanguageSwitcher />
+            
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-600 hover:text-gray-900 focus:outline-none"
@@ -154,14 +160,14 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="px-4 pt-2 pb-3 space-y-1">
             {/* Navigation Links */}
-            <div className="flex flex-col space-y-3 px-4 py-2">
+            <div className="flex flex-col space-y-3 py-2">
               {navLinks}
             </div>
             
             {/* Auth Buttons */}
-            <div className="mt-4 px-4 py-2 border-t border-gray-200">
+            <div className="mt-4 pt-4 border-t border-gray-200">
               {session ? (
                 <div className="flex flex-col space-y-3">
                   <div className="text-gray-600">{session.user.email}</div>
@@ -169,34 +175,34 @@ export default function Navbar() {
                     href="/profile"
                     className="text-gray-600 hover:text-gray-900"
                   >
-                    Profile
+                    {getTranslation(currentLanguage, 'nav.profile')}
                   </Link>
                   <Link
                     href="/settings"
                     className="text-gray-600 hover:text-gray-900"
                   >
-                    Settings
+                    {getTranslation(currentLanguage, 'nav.settings')}
                   </Link>
                   <button
                     onClick={() => signOut({ redirect: false })}
                     className="text-red-600 hover:text-red-700 text-left"
                   >
-                    Sign Out
+                    {getTranslation(currentLanguage, 'nav.signOut')}
                   </button>
                 </div>
               ) : (
                 <div className="flex flex-col space-y-3">
                   <Link
                     href="/auth/login"
-                    className="text-gray-600 hover:text-gray-900"
+                    className="block w-full text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                   >
-                    Sign In
+                    {getTranslation(currentLanguage, 'nav.signIn')}
                   </Link>
                   <Link
                     href="/auth/register"
-                    className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 text-center"
+                    className="block w-full text-center px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
                   >
-                    Sign Up
+                    {getTranslation(currentLanguage, 'nav.signUp')}
                   </Link>
                 </div>
               )}
