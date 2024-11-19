@@ -323,7 +323,7 @@ export default function CompanyJobDetail() {
               <CandidateList
                 candidates={filteredAndSortedCandidates}
                 selectedId={selectedCandidate?.id}
-                onSelect={setSelectedCandidate}
+                onSelect={(candidate) => setSelectedCandidate(candidate)}
               />
             </div>
           </div>
