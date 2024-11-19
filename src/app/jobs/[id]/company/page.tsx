@@ -185,7 +185,7 @@ export default function CompanyJobDetail() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [showSortMenu])
 
-  if (loading) {
+  if (loading || !selectedJob) {
     return <Loading fullScreen text="Loading candidates..." />
   }
 
@@ -193,12 +193,12 @@ export default function CompanyJobDetail() {
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      <div className="max-w-[1600px] mx-auto pt-32 px-4 sm:px-6 lg:px-8">
-        {/* 顶部标题区域 */}
-        <div className="flex items-center mb-8">
+      <div className="max-w-[1600px] mx-auto pt-20 sm:pt-32 px-4 sm:px-6 lg:px-8">
+        {/* 顶部标题区域 - 调整移动端样式 */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center mb-6 sm:mb-8">
           <button
             onClick={() => router.back()}
-            className="mr-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="mb-4 sm:mb-0 mr-0 sm:mr-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <svg
               className="w-6 h-6 text-gray-600"
@@ -215,27 +215,27 @@ export default function CompanyJobDetail() {
             </svg>
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {selectedJob.title}
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              {selectedJob?.title || ''}
             </h1>
-            <div className="text-sm text-gray-500 flex items-center">
-              <span>{selectedJob.company}</span>
-              <span className="mx-2">•</span>
-              <span>{selectedJob.location}</span>
-              <span className="mx-2">•</span>
-              <span>{selectedJob.type}</span>
-              <span className="mx-2">•</span>
-              <span>{selectedJob.salary}</span>
-              <span className="mx-2">•</span>
-              <span>Posted {new Date(selectedJob.postedAt).toLocaleDateString()}</span>
+            <div className="text-sm text-gray-500 flex flex-wrap items-center gap-2">
+              <span>{selectedJob?.company || ''}</span>
+              <span className="hidden sm:inline">•</span>
+              <span>{selectedJob?.location || ''}</span>
+              <span className="hidden sm:inline">•</span>
+              <span>{selectedJob?.type || ''}</span>
+              <span className="hidden sm:inline">•</span>
+              <span>{selectedJob?.salary || ''}</span>
+              <span className="hidden sm:inline">•</span>
+              <span>Posted {selectedJob?.postedAt ? new Date(selectedJob.postedAt).toLocaleDateString() : ''}</span>
             </div>
           </div>
         </div>
 
-        {/* 三栏布局主体 - 调整阴影和分割线 */}
-        <div className="flex gap-6 h-[calc(100vh-240px)]">
+        {/* 三栏布局主体 - 移动端改为单列布局 */}
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-auto lg:h-[calc(100vh-240px)]">
           {/* 左侧候选人列表 */}
-          <div className="w-[22%] bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="w-full lg:w-[22%] bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-medium text-gray-900">Candidates</h2>
@@ -245,7 +245,7 @@ export default function CompanyJobDetail() {
               </div>
             </div>
             
-            {/* 搜索和排序移到分割线下方，并排放置 */}
+            {/* 搜索和排序 */}
             <div className="p-4 border-b border-gray-200">
               <div className="flex gap-2">
                 <div className="relative w-[75%]">
@@ -273,7 +273,7 @@ export default function CompanyJobDetail() {
                 <div className="relative w-[25%]">
                   <button
                     onClick={() => setShowSortMenu(!showSortMenu)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-1 focus:ring-black focus:border-black flex items-center justify-center"
+                    className="sort-button w-full px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-1 focus:ring-black focus:border-black flex items-center justify-center"
                   >
                     <svg
                       className="h-5 w-5 text-gray-600"
@@ -318,8 +318,8 @@ export default function CompanyJobDetail() {
               </div>
             </div>
 
-            {/* 调整列表区域的高度 */}
-            <div className="overflow-y-auto h-[calc(100%-140px)]">
+            {/* 候选人列表 */}
+            <div className="overflow-y-auto h-[300px] lg:h-[calc(100%-140px)]">
               <CandidateList
                 candidates={filteredAndSortedCandidates}
                 selectedId={selectedCandidate?.id}
@@ -329,17 +329,17 @@ export default function CompanyJobDetail() {
           </div>
 
           {/* 中间候选人详情 */}
-          <div className="w-[45%] bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="w-full lg:w-[45%] bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-4 border-b border-gray-200 h-[60px] flex items-center">
               <h2 className="text-lg font-medium text-gray-900">Candidate Details</h2>
             </div>
-            <div className="overflow-y-auto h-[calc(100%-60px)]">
+            <div className="overflow-y-auto h-[400px] lg:h-[calc(100%-60px)]">
               <CandidateDetail candidate={selectedCandidate} />
             </div>
           </div>
 
           {/* 右侧聊天面板 */}
-          <div className="w-[30%] bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="w-full lg:w-[30%] bg-white rounded-lg shadow-md overflow-hidden">
             <ChatPanel candidate={selectedCandidate} />
           </div>
         </div>
