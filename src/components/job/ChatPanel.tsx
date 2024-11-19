@@ -11,8 +11,8 @@ interface Props {
 export default function ChatPanel({ candidate }: Props) {
   return (
     <div className="flex flex-col h-full">
-      {/* 聊天头部 */}
-      <div className="p-4 border-b border-gray-200">
+      {/* 聊天头部 - 调整高度和对齐方式 */}
+      <div className="h-[60px] p-4 border-b border-gray-200 flex items-center">
         <div className="flex items-center space-x-3">
           <img
             src={candidate.avatar}
@@ -26,7 +26,6 @@ export default function ChatPanel({ candidate }: Props) {
       {/* 聊天记录 */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-4">
-          {/* 这里可以添加聊天记录 */}
           <p className="text-gray-500 text-center text-sm">
             Start chatting with the candidate
           </p>
@@ -38,11 +37,11 @@ export default function ChatPanel({ candidate }: Props) {
         <div className="flex space-x-4">
           <input
             type="text"
-            placeholder="输入消息..."
+            placeholder="Type a message..."
             className="flex-1 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
           />
           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            发送
+            Send
           </button>
         </div>
       </div>

@@ -6,6 +6,8 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import JobCard from '@/components/JobCard'
 import Loading from '@/components/ui/Loading'
+import { useJob } from '@/contexts/JobContext'
+import { useEffect } from 'react'
 
 // 生成固定的假数据
 const MOCK_APPLIED_JOBS = [
@@ -79,6 +81,13 @@ export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
+  const { setSelectedJob } = useJob()
+
+  useEffect(() => {
+    // 当进入 dashboard 页面时清除保存的职位信息
+    localStorage.removeItem('selectedJob')
+  }, [])
+
   if (status === 'loading') {
     return <Loading fullScreen text="Loading..." />
   }
@@ -92,16 +101,8 @@ export default function Dashboard() {
   const jobs = isCompany ? MOCK_COMPANY_JOBS : MOCK_APPLIED_JOBS
 
   const handleJobClick = (job: any) => {
-    const params = new URLSearchParams({
-      title: job.title,
-      company: job.company,
-      location: job.location,
-      type: job.type,
-      salary: job.salary,
-      postedAt: job.postedAt,
-    }).toString()
-    
-    router.push(`/jobs/${job.id}/company?${params}`)
+    setSelectedJob(job)
+    router.push(`/jobs/${job.id}/company`)
   }
 
   return (

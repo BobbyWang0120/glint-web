@@ -11,4 +11,40 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-end-rgb));
+}
+
+/* 自定义下拉菜单样式 */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* 下拉选项样式 */
+select option {
+  @apply py-3 px-4;
+  background-color: white;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+}
+
+/* 下拉选项悬停样式 */
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+  @apply bg-gray-100;
+  color: black;
+}
+
+/* 确保选项之间有足够的间距 */
+select {
+  @apply py-2;
+  line-height: 1.5;
+}
+
+/* 选中状态的样式 */
+select option:checked {
+  @apply bg-gray-100;
+  color: black;
 } 
