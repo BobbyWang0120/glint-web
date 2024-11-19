@@ -33,7 +33,7 @@ export default function PostJob() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
       <div className="max-w-4xl mx-auto pt-32 px-4 sm:px-6 lg:px-8">

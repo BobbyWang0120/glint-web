@@ -4,32 +4,30 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 interface LogoImageProps {
-  src: string
+  src?: string
   alt: string
   size?: number
 }
 
-export default function LogoImage({ src, alt, size = 48 }: LogoImageProps) {
+export default function LogoImage({ src, alt, size = 40 }: LogoImageProps) {
   const [error, setError] = useState(false)
+  
+  // 生成默认的 UI Avatar URL
+  const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    alt
+  )}&background=0D8ABC&color=fff&size=${size * 2}`
 
-  if (error) {
-    return (
-      <div 
-        className="bg-gray-100 rounded-lg flex items-center justify-center"
-        style={{ width: size, height: size }}
-      >
-        <span className="text-gray-400 text-xs">{alt[0]}</span>
-      </div>
-    )
-  }
+  // 如果没有提供 src 或者加载失败，使用 fallback
+  const imageUrl = (!src || error) ? fallbackUrl : `https://logo.clearbit.com/${src}`
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <Image
-        src={src}
+        src={imageUrl}
         alt={alt}
-        fill
-        className="rounded-lg object-contain"
+        width={size}
+        height={size}
+        className="rounded-lg object-cover"
         onError={() => setError(true)}
       />
     </div>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import JobCard from '@/components/JobCard'
+import Loading from '@/components/ui/Loading'
 
 // 生成固定的假数据
 const MOCK_APPLIED_JOBS = [
@@ -79,7 +80,7 @@ export default function Dashboard() {
   const router = useRouter()
 
   if (status === 'loading') {
-    return <div>Loading...</div>
+    return <Loading fullScreen text="Loading..." />
   }
 
   if (!session) {
@@ -90,8 +91,21 @@ export default function Dashboard() {
   const isCompany = session.user.role === 'COMPANY'
   const jobs = isCompany ? MOCK_COMPANY_JOBS : MOCK_APPLIED_JOBS
 
+  const handleJobClick = (job: any) => {
+    const params = new URLSearchParams({
+      title: job.title,
+      company: job.company,
+      location: job.location,
+      type: job.type,
+      salary: job.salary,
+      postedAt: job.postedAt,
+    }).toString()
+    
+    router.push(`/jobs/${job.id}/company?${params}`)
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
@@ -111,7 +125,13 @@ export default function Dashboard() {
 
         <div className="space-y-6">
           {jobs.map(job => (
-            <JobCard key={job.id} job={job} />
+            <div 
+              key={job.id} 
+              onClick={() => handleJobClick(job)} 
+              className="cursor-pointer"
+            >
+              <JobCard job={job} />
+            </div>
           ))}
         </div>
       </div>

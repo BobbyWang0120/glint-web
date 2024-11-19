@@ -15,25 +15,27 @@ export default function Home() {
   const { currentLanguage } = useLanguage()
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <Navbar />
       
       {/* Hero Section - 白色背景 */}
-      <section className="pt-32 pb-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            {getTranslation(currentLanguage, 'hero.title')}
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            {getTranslation(currentLanguage, 'hero.subtitle')}
-          </p>
-          <JobSearch />
+      <section className="bg-white pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              {getTranslation(currentLanguage, 'hero.title')}
+            </h1>
+            <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+              {getTranslation(currentLanguage, 'hero.subtitle')}
+            </p>
+            <JobSearch />
+          </div>
         </div>
       </section>
 
-      {/* Platform Integration - 灰色背景 */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* Platform Integration - 白色背景 */}
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               {getTranslation(currentLanguage, 'platform.title')}
@@ -58,8 +60,8 @@ export default function Home() {
       </section>
 
       {/* AI Matching - 白色背景 */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
@@ -138,9 +140,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Translation Feature - 灰色背景 */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* Translation Feature - 白色背景 */}
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               {getTranslation(currentLanguage, 'translation.title')}
@@ -194,8 +196,8 @@ export default function Home() {
       </section>
 
       {/* Cost Saving - 白色背景 */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="bg-white rounded-xl shadow-xl p-8">
               <div className="space-y-8">
@@ -277,7 +279,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section - 白色背景 */}
-      <section className="py-20 bg-white">
+      <section className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">
             {getTranslation(currentLanguage, 'cta.title')}
@@ -297,8 +299,8 @@ export default function Home() {
       <div className="h-20 bg-white"></div>
 
       {/* Footer */}
-      <footer className="bg-black w-full">
-        <div className="max-w-7xl mx-auto py-16 px-4">
+      <footer className="bg-black text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-gray-400 text-lg mb-8">
               {getTranslation(currentLanguage, 'footer.slogan')}

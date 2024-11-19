@@ -18,14 +18,11 @@ interface JobCardProps {
 
 export default function JobCard({ job }: JobCardProps) {
   return (
-    <Link 
-      href={`/jobs/${job.id}`}
-      className="block bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-200"
-    >
+    <div className="block bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-200">
       <div className="p-6">
         <div className="flex items-start">
           <LogoImage
-            src={`https://logo.clearbit.com/${job.companyLogo}`}
+            src={job.companyLogo}
             alt={job.company}
             size={48}
           />
@@ -54,6 +51,6 @@ export default function JobCard({ job }: JobCardProps) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 } 

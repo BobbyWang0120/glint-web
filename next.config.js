@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['logo.clearbit.com'],
+    domains: ['ui-avatars.com', 'logo.clearbit.com', 'api.dicebear.com'],
   },
 }
 
