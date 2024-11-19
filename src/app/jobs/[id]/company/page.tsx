@@ -323,7 +323,10 @@ export default function CompanyJobDetail() {
               <CandidateList
                 candidates={filteredAndSortedCandidates}
                 selectedId={selectedCandidate?.id}
-                onSelect={(candidate) => setSelectedCandidate(candidate)}
+                onSelect={(candidate) => setSelectedCandidate({
+                  ...candidate,
+                  resumeUrl: '#' // 添加缺失的 resumeUrl 属性
+                })}
               />
             </div>
           </div>
